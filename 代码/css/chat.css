@@ -1,0 +1,241 @@
+/* AI对话按钮样式 */
+.chat-toggle {
+    position: fixed;
+    right: 2rem;
+    bottom: 8rem;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    background: var(--gradient-neon);
+    border: 1px solid rgba(255, 255, 255, 0.3);
+    color: var(--color-white);
+    font-size: 1.5rem;
+    cursor: pointer;
+    box-shadow: var(--shadow-pink);
+    animation: pulse 8s infinite;
+    z-index: 1000;
+    backdrop-filter: blur(5px);
+}
+
+@keyframes pulse {
+    0% { box-shadow: 0 0 0 0 rgba(255, 105, 180, 0.4); }
+    70% { box-shadow: 0 0 0 20px rgba(255, 105, 180, 0); }
+    100% { box-shadow: 0 0 0 0 rgba(255, 105, 180, 0); }
+}
+
+/* 聊天容器样式 */
+.chat-container {
+    position: fixed;
+    right: 2rem;
+    bottom: 8rem;
+    width: 400px;
+    height: 600px;
+    background: rgba(255, 255, 255, 0.15);
+    border-radius: 20px;
+    box-shadow: 0 0 30px rgba(255, 105, 180, 0.2);
+    display: none;
+    flex-direction: column;
+    overflow: hidden;
+    z-index: 999;
+    transform: translateY(100%);
+    transition: transform 0.3s ease;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.chat-container.active {
+    display: flex;
+    transform: translateY(0);
+}
+
+/* 聊天头部样式 */
+.chat-header {
+    padding: 1rem;
+    background: var(--gradient-neon);
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+}
+
+.chat-avatar {
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    overflow: hidden;
+    border: 2px solid var(--color-white);
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.5);
+}
+
+.chat-avatar img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.chat-title {
+    flex: 1;
+}
+
+.chat-title h2 {
+    color: var(--color-white);
+    font-size: 1.2rem;
+    margin-bottom: 0.2rem;
+    text-shadow: 0 0 10px rgba(255, 255, 255, 0.5);
+}
+
+.status-indicator {
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    background: var(--color-white);
+    box-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    animation: blink 2s infinite;
+}
+
+@keyframes blink {
+    0% { opacity: 1; }
+    50% { opacity: 0.3; }
+    100% { opacity: 1; }
+}
+
+.chat-controls {
+    display: flex;
+    gap: 0.5rem;
+}
+
+.chat-controls button {
+    background: none;
+    border: none;
+    color: var(--color-white);
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 8px rgba(255, 255, 255, 0.5);
+}
+
+.chat-controls button:hover {
+    transform: scale(1.1);
+}
+
+/* 消息区域样式 */
+.chat-messages {
+    flex: 1;
+    padding: 1rem;
+    overflow-y: auto;
+    background: rgba(255, 255, 255, 0.05);
+}
+
+.message {
+    margin-bottom: 1rem;
+    max-width: 80%;
+    animation: messageAppear 0.3s ease;
+}
+
+@keyframes messageAppear {
+    from { opacity: 0; transform: translateY(20px); }
+    to { opacity: 1; transform: translateY(0); }
+}
+
+.message.user {
+    margin-left: auto;
+    background: var(--gradient-neon);
+    border-radius: 15px 15px 0 15px;
+    padding: 0.8rem 1rem;
+    color: var(--color-white);
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.2);
+}
+
+.message.ai {
+    margin-right: auto;
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 15px 15px 15px 0;
+    padding: 0.8rem 1rem;
+    color: var(--color-neon-purple);
+    position: relative;
+    box-shadow: 0 0 15px rgba(178, 75, 243, 0.2);
+    text-shadow: 0 0 8px rgba(178, 75, 243, 0.3);
+    backdrop-filter: blur(5px);
+}
+
+.message.ai::before {
+    content: '';
+    position: absolute;
+    left: -2px;
+    top: 0;
+    bottom: 0;
+    width: 2px;
+    background: var(--gradient-neon);
+    box-shadow: 0 0 10px rgba(255, 105, 180, 0.5);
+}
+
+/* 输入区域样式 */
+.chat-input {
+    padding: 1rem;
+    background: rgba(255, 255, 255, 0.1);
+    border-top: 1px solid rgba(255, 255, 255, 0.2);
+    backdrop-filter: blur(10px);
+}
+
+.chat-input textarea {
+    width: 100%;
+    height: 60px;
+    background: rgba(255, 255, 255, 0.05);
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    border-radius: 10px;
+    padding: 0.8rem;
+    color: var(--color-neon-purple);
+    resize: none;
+    margin-bottom: 0.5rem;
+    box-shadow: 0 0 15px rgba(255, 105, 180, 0.1);
+    backdrop-filter: blur(5px);
+}
+
+.chat-input textarea:focus {
+    outline: none;
+    border-color: var(--color-neon-pink);
+    box-shadow: 0 0 20px rgba(255, 105, 180, 0.2);
+}
+
+.chat-input textarea::placeholder {
+    color: rgba(178, 75, 243, 0.5);
+}
+
+.input-controls {
+    display: flex;
+    justify-content: flex-end;
+    gap: 0.5rem;
+}
+
+.input-controls button {
+    background: none;
+    border: none;
+    color: var(--color-neon-purple);
+    cursor: pointer;
+    padding: 0.5rem;
+    transition: all 0.3s ease;
+    text-shadow: 0 0 8px rgba(178, 75, 243, 0.3);
+}
+
+.input-controls button:hover {
+    color: var(--color-neon-pink);
+    text-shadow: 0 0 12px rgba(255, 105, 180, 0.5);
+    transform: scale(1.1);
+}
+
+/* 响应式设计 */
+@media (max-width: 768px) {
+    .chat-container {
+        width: 100%;
+        height: 100%;
+        right: 0;
+        bottom: 0;
+        border-radius: 0;
+    }
+    
+    .chat-toggle {
+        right: 1rem;
+        bottom: 6rem;
+    }
+} 

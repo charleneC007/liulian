@@ -1,0 +1,594 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>刘恋 | 梦幻空间</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+SC:wght@300;400;500;700&family=Noto+Serif+SC:wght@400;500;600;700&family=ZCOOL+KuaiLe&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/remixicon@3.5.0/fonts/remixicon.css">
+    <style>
+        :root {
+            /* 主色调 */
+            --phantom-pink: #F3D7E6;
+            --twilight-purple: #6C5B7B;
+            --starry-blue: #4A6FA5;
+            --golden-shine: #D4AF37;
+            
+            /* 渐变色 */
+            --gradient-primary: linear-gradient(135deg, #F3D7E6, #C6A4B4, #6C5B7B);
+            --glass-effect: rgba(108, 91, 123, 0.8);
+            
+            /* 文字颜色 */
+            --text-dark: #483D5E;
+            --text-light: #FFFFFF;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Noto Sans SC', sans-serif;
+            background: var(--phantom-pink);
+            color: var(--text-dark);
+            overflow-x: hidden;
+            min-height: 100vh;
+        }
+
+        /* 背景动态效果 */
+        body::before {
+            content: '';
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 50% 50%,
+                rgba(212, 175, 55, 0.15),
+                rgba(74, 111, 165, 0.1));
+            pointer-events: none;
+            z-index: -1;
+            animation: backgroundShimmer 15s ease-in-out infinite;
+        }
+
+        /* 导航栏 */
+        nav {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: rgba(108, 91, 123, 0.8);
+            backdrop-filter: blur(10px);
+            padding: 1rem 2rem;
+            z-index: 1000;
+            transition: all 0.3s ease;
+        }
+
+        nav a {
+            color: var(--golden-shine);
+            text-decoration: none;
+            margin: 0 1rem;
+            transition: all 0.3s ease;
+        }
+
+        nav a:hover {
+            color: var(--starry-blue);
+            text-shadow: 0 0 10px var(--golden-shine);
+        }
+
+        /* 主视觉区域 */
+        .hero {
+            min-height: 60vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+            padding: 2rem;
+            background: var(--gradient-primary);
+            margin-bottom: 2rem;
+        }
+
+        .hero::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: radial-gradient(circle at center,
+                rgba(212, 175, 55, 0.2),
+                transparent 60%);
+            animation: glowPulse 4s ease-in-out infinite;
+        }
+
+        .hero-content {
+            text-align: center;
+            position: relative;
+            z-index: 1;
+        }
+
+        .hero h1 {
+            font-family: 'ZCOOL KuaiLe', cursive;
+            font-size: 4.5rem;
+            margin-bottom: 1rem;
+            background: linear-gradient(to right, #FF6B6B, #4ECDC4);
+            -webkit-background-clip: text;
+            color: transparent;
+            text-shadow: 3px 3px 0px rgba(0, 0, 0, 0.1);
+            animation: titleFloat 4s ease-in-out infinite;
+            letter-spacing: 2px;
+        }
+
+        .hero .subtitle {
+            font-size: 1.5rem;
+            color: var(--text-light);
+            text-shadow: 0 0 10px var(--twilight-purple);
+            opacity: 0.9;
+        }
+
+        /* 照片墙区域 */
+        .gallery {
+            padding: 2rem;
+            column-count: 4;
+            column-gap: 1rem;
+            max-width: 1800px;
+            margin: 0 auto;
+        }
+
+        .gallery-item {
+            break-inside: avoid;
+            margin-bottom: 1rem;
+            position: relative;
+            border-radius: 10px;
+            overflow: hidden;
+            transform: translateZ(0);
+        }
+
+        .gallery-item img {
+            width: 100%;
+            height: auto;
+            display: block;
+            transition: transform 0.5s ease;
+            border-radius: 10px;
+        }
+
+        .gallery-item::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: linear-gradient(to bottom,
+                rgba(243, 215, 230, 0),
+                rgba(108, 91, 123, 0.3));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 1;
+            border-radius: 10px;
+        }
+
+        .gallery-item:hover::before {
+            opacity: 1;
+        }
+
+        .gallery-item:hover img {
+            transform: scale(1.05);
+        }
+
+        /* 加载更多按钮 */
+        .load-more {
+            display: block;
+            margin: 2rem auto;
+            padding: 1rem 2rem;
+            background: var(--twilight-purple);
+            color: var(--text-light);
+            border: none;
+            border-radius: 25px;
+            font-size: 1.1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 15px rgba(108, 91, 123, 0.3);
+        }
+
+        .load-more:hover {
+            background: var(--starry-blue);
+            transform: translateY(-2px);
+            box-shadow: 0 6px 20px rgba(74, 111, 165, 0.4);
+        }
+
+        /* 动画效果 */
+        @keyframes backgroundShimmer {
+            0%, 100% { opacity: 0.5; }
+            50% { opacity: 0.8; }
+        }
+
+        @keyframes glowPulse {
+            0%, 100% { opacity: 0.3; }
+            50% { opacity: 0.6; }
+        }
+
+        @keyframes titleFloat {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        /* 响应式设计 */
+        @media (max-width: 1600px) {
+            .gallery {
+                column-count: 3;
+            }
+        }
+
+        @media (max-width: 1200px) {
+            .gallery {
+                column-count: 2;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+            
+            .hero .subtitle {
+                font-size: 1.2rem;
+            }
+
+            .gallery {
+                column-count: 1;
+                padding: 1rem;
+            }
+        }
+
+        /* 新增分类筛选器样式 */
+        .filters {
+            display: flex;
+            justify-content: center;
+            flex-wrap: wrap;
+            gap: 1rem;
+            padding: 2rem;
+            background: rgba(108, 91, 123, 0.1);
+            margin-bottom: 2rem;
+        }
+
+        .filter-btn {
+            padding: 0.8rem 1.5rem;
+            border: none;
+            border-radius: 25px;
+            background: var(--phantom-pink);
+            color: var(--twilight-purple);
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 2px 8px rgba(108, 91, 123, 0.2);
+        }
+
+        .filter-btn:hover,
+        .filter-btn.active {
+            background: var(--twilight-purple);
+            color: var(--text-light);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(108, 91, 123, 0.3);
+        }
+
+        /* 图片质量标签 */
+        .quality-badge {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            padding: 0.3rem 0.8rem;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            color: white;
+            background: rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(4px);
+            z-index: 2;
+        }
+
+        .quality-4k {
+            background: rgba(212, 175, 55, 0.8);
+        }
+
+        .quality-hd {
+            background: rgba(74, 111, 165, 0.8);
+        }
+
+        .quality-sd {
+            background: rgba(108, 91, 123, 0.8);
+        }
+
+        /* 图片信息浮层 */
+        .gallery-item-info {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+            color: white;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: 2;
+        }
+
+        .gallery-item:hover .gallery-item-info {
+            opacity: 1;
+        }
+
+        .gallery-item-title {
+            font-size: 1rem;
+            margin-bottom: 0.5rem;
+            font-weight: 500;
+        }
+
+        .gallery-item-date {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        /* 加载动画 */
+        .loading {
+            display: none;
+            text-align: center;
+            padding: 2rem;
+        }
+
+        .loading.active {
+            display: block;
+        }
+
+        .loading-spinner {
+            width: 40px;
+            height: 40px;
+            border: 4px solid var(--phantom-pink);
+            border-top-color: var(--twilight-purple);
+            border-radius: 50%;
+            animation: spin 1s linear infinite;
+            margin: 0 auto;
+        }
+
+        @keyframes spin {
+            to { transform: rotate(360deg); }
+        }
+    </style>
+</head>
+<body>
+    <nav>
+        <a href="index.html">返回主页</a>
+    </nav>
+    
+    <section class="hero">
+        <div class="hero-content">
+            <h1>大蛋丝乐园</h1>
+            <p class="subtitle">在这里，音乐与梦想交织成诗</p>
+        </div>
+    </section>
+
+    <div class="filters">
+        <button class="filter-btn active" data-filter="all">全部</button>
+        <button class="filter-btn" data-filter="stage">舞台表演</button>
+        <button class="filter-btn" data-filter="portrait">写真照</button>
+        <button class="filter-btn" data-filter="life">生活照</button>
+        <button class="filter-btn" data-filter="4k">超清图片</button>
+        <button class="filter-btn" data-filter="hd">高清图片</button>
+    </div>
+
+    <div class="gallery">
+        <!-- 演出照片 -->
+        <div class="gallery-item" data-category="stage" data-quality="4k">
+            <span class="quality-badge quality-4k">4K</span>
+            <img src="images/5.jpg" alt="刘恋演出照片 - 粉色西装演出">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">粉色西装演出</div>
+                <div class="gallery-item-date">2024年巡演</div>
+            </div>
+        </div>
+        <div class="gallery-item" data-category="stage" data-quality="hd">
+            <span class="quality-badge quality-hd">HD</span>
+            <img src="images/奇谈 巡演.jpg" alt="刘恋奇谈巡演照片">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">奇谈巡演现场</div>
+                <div class="gallery-item-date">2024奇谈巡演</div>
+            </div>
+        </div>
+        <div class="gallery-item" data-category="stage" data-quality="4k">
+            <span class="quality-badge quality-4k">4K</span>
+            <img src="images/008r6MlPgy1hz9ozv5f9ej347s2t6qv9.jpg" alt="刘恋舞台表演">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">舞台魅力 - 光影交织</div>
+                <div class="gallery-item-date">2024年演出</div>
+            </div>
+        </div>
+        <div class="gallery-item" data-category="stage" data-quality="4k">
+            <span class="quality-badge quality-4k">4K</span>
+            <img src="images/008r6MlPgy1hz9ozpnbf1j347s6bkb2l.jpg" alt="刘恋演唱会照片">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">演唱会现场 - 深情演绎</div>
+                <div class="gallery-item-date">2024年演唱会</div>
+            </div>
+        </div>
+        <div class="gallery-item" data-category="stage" data-quality="4k">
+            <span class="quality-badge quality-4k">4K</span>
+            <img src="images/008uPr57gy1hzf458x4kjj32pe4244qt.jpg" alt="刘恋舞台表演">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">舞台风采 - 魅力绽放</div>
+                <div class="gallery-item-date">2024年演出</div>
+            </div>
+        </div>
+        <div class="gallery-item" data-category="stage" data-quality="4k">
+            <span class="quality-badge quality-4k">4K</span>
+            <img src="images/008r6MlPly1hzgscbkmpej31qu2m84qr.jpg" alt="刘恋演唱会照片">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">演唱会现场 - 精彩瞬间</div>
+                <div class="gallery-item-date">2024年演唱会</div>
+            </div>
+        </div>
+        
+        <!-- 写真照 -->
+        <div class="gallery-item" data-category="portrait" data-quality="4k">
+            <span class="quality-badge quality-4k">4K</span>
+            <img src="images/2.jpg" alt="刘恋写真">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">艺术写真 - 优雅瞬间</div>
+                <div class="gallery-item-date">2024年春季</div>
+            </div>
+        </div>
+        <div class="gallery-item" data-category="portrait" data-quality="4k">
+            <span class="quality-badge quality-4k">4K</span>
+            <img src="images/3.jpg" alt="刘恋写真集">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">写真集 - 光影之美</div>
+                <div class="gallery-item-date">2024年冬季</div>
+            </div>
+        </div>
+        <div class="gallery-item" data-category="portrait" data-quality="4k">
+            <span class="quality-badge quality-4k">4K</span>
+            <img src="images/7.jpg" alt="刘恋写真">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">写真集 - 自然光影</div>
+                <div class="gallery-item-date">2024年春</div>
+            </div>
+        </div>
+        
+        <!-- 生活照 -->
+        <div class="gallery-item" data-category="life" data-quality="4k">
+            <span class="quality-badge quality-4k">4K</span>
+            <img src="images/8.jpg" alt="刘恋生活照">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">日常随拍 - 咖啡时光</div>
+                <div class="gallery-item-date">2024年3月</div>
+            </div>
+        </div>
+        <div class="gallery-item" data-category="life" data-quality="4k">
+            <span class="quality-badge quality-4k">4K</span>
+            <img src="images/1.jpeg" alt="刘恋生活写真">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">生活写真 - 阳光下的微笑</div>
+                <div class="gallery-item-date">2024年春</div>
+            </div>
+        </div>
+        <div class="gallery-item" data-category="life" data-quality="hd">
+            <span class="quality-badge quality-hd">HD</span>
+            <img src="images/5f4e40be248bb1d1a27b4f3270291164d4cfda7d.jpg" alt="刘恋日常照">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">日常随拍 - 音乐创作时光</div>
+                <div class="gallery-item-date">2024年2月</div>
+            </div>
+        </div>
+        <div class="gallery-item" data-category="life" data-quality="hd">
+            <span class="quality-badge quality-hd">HD</span>
+            <img src="images/e6d8ea5e86cd234eafa27cb067e68e32cd1c8fc0.jpg" alt="刘恋生活写真">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">生活写真 - 悠闲时刻</div>
+                <div class="gallery-item-date">2024年2月</div>
+            </div>
+        </div>
+        <div class="gallery-item" data-category="life" data-quality="hd">
+            <span class="quality-badge quality-hd">HD</span>
+            <img src="images/AAE5609A60A1703CB6A88722B92372BC7A475E34_size82_w1080_h681.jpeg" alt="刘恋日常照">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">日常随拍 - 音乐分享</div>
+                <div class="gallery-item-date">2024年3月</div>
+            </div>
+        </div>
+        <div class="gallery-item" data-category="life" data-quality="4k">
+            <span class="quality-badge quality-4k">4K</span>
+            <img src="images/天才恋爱博弈.png" alt="刘恋生活照">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">生活随拍 - 音乐创作</div>
+                <div class="gallery-item-date">2024年3月</div>
+            </div>
+        </div>
+        <div class="gallery-item" data-category="life" data-quality="4k">
+            <span class="quality-badge quality-4k">4K</span>
+            <img src="images/胖胖.png" alt="刘恋生活写真">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">生活写真 - 温馨时刻</div>
+                <div class="gallery-item-date">2024年春</div>
+            </div>
+        </div>
+        <div class="gallery-item" data-category="life" data-quality="4k">
+            <span class="quality-badge quality-4k">4K</span>
+            <img src="images/rose whispers.png" alt="刘恋日常照">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">日常随拍 - 玫瑰私语</div>
+                <div class="gallery-item-date">2024年3月</div>
+            </div>
+        </div>
+        
+        <!-- 音乐创作 -->
+        <div class="gallery-item" data-category="life" data-quality="4k">
+            <span class="quality-badge quality-4k">4K</span>
+            <img src="images/u=1248692421,4269333259&fm=225&app=113&f=JPEG.jfif" alt="刘恋创作照">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">创作时光 - 钢琴演奏</div>
+                <div class="gallery-item-date">2024年</div>
+            </div>
+        </div>
+        <div class="gallery-item" data-category="life" data-quality="4k">
+            <span class="quality-badge quality-4k">4K</span>
+            <img src="images/u=3100084337,4163734312&fm=225&app=113&f=JPEG.jfif" alt="刘恋创作照">
+            <div class="gallery-item-info">
+                <div class="gallery-item-title">创作时光 - 吉他弹唱</div>
+                <div class="gallery-item-date">2024年</div>
+            </div>
+        </div>
+    </div>
+
+    <div class="loading">
+        <div class="loading-spinner"></div>
+        <p>加载更多精彩照片...</p>
+    </div>
+
+    <button class="load-more">加载更多照片</button>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const gallery = document.querySelector('.gallery');
+            const filterBtns = document.querySelectorAll('.filter-btn');
+            const loadMoreBtn = document.querySelector('.load-more');
+            const loading = document.querySelector('.loading');
+
+            // 筛选功能
+            filterBtns.forEach(btn => {
+                btn.addEventListener('click', () => {
+                    // 移除所有按钮的active类
+                    filterBtns.forEach(b => b.classList.remove('active'));
+                    // 添加当前按钮的active类
+                    btn.classList.add('active');
+
+                    const filter = btn.dataset.filter;
+                    const items = gallery.querySelectorAll('.gallery-item');
+
+                    items.forEach(item => {
+                        if (filter === 'all' || 
+                            item.dataset.category === filter ||
+                            item.dataset.quality === filter) {
+                            item.style.display = 'block';
+                        } else {
+                            item.style.display = 'none';
+                        }
+                    });
+                });
+            });
+
+            // 加载更多功能
+            loadMoreBtn.addEventListener('click', () => {
+                loading.classList.add('active');
+                loadMoreBtn.style.display = 'none';
+                
+                // 模拟加载更多图片
+                setTimeout(() => {
+                    loading.classList.remove('active');
+                    loadMoreBtn.style.display = 'block';
+                }, 1500);
+            });
+        });
+    </script>
+</body>
+</html> 
